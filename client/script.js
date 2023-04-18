@@ -10,10 +10,10 @@ function loader(element) {
     element.textContent = ''
 
     loadInterval = setInterval(() => {
-        // Update the text content of the loading indicator
+        // Perbarui konten teks dari indikator pemuatan
         element.textContent += '.';
 
-        // If the loading indicator has reached three dots, reset it
+        // Jika indikator pemuatan telah mencapai tiga titik, setel ulang
         if (element.textContent === '....') {
             element.textContent = '';
         }
@@ -33,9 +33,11 @@ function typeText(element, text) {
     }, 20)
 }
 
-// generate unique ID for each message div of bot
-// necessary for typing text effect for that specific reply
-// without unique ID, typing text will work on every element
+
+
+// Hasilkan ID unik untuk setiap pesan div dari bot
+// diperlukan untuk mengetik efek teks untuk balasan spesifik itu
+//Tanpa ID yang unik, teks mengetik akan bekerja pada setiap elemen
 function generateUniqueId() {
     const timestamp = Date.now();
     const randomNumber = Math.random();
@@ -58,7 +60,7 @@ function chatStripe(isAi, value, uniqueId) {
                 <div class="message" id=${uniqueId}>${value}</div>
             </div>
         </div>
-    `
+        `
     )
 }
 
@@ -67,17 +69,17 @@ const handleSubmit = async (e) => {
 
     const data = new FormData(form)
 
-    // user's chatstripe
+    // CHATSTRIP PENGGUNA
     chatContainer.innerHTML += chatStripe(false, data.get('prompt'))
 
-    // to clear the textarea input 
+    // untuk menghapus input tekstara
     form.reset()
 
-    // bot's chatstripe
+    // CHATSTRIP BOT
     const uniqueId = generateUniqueId()
     chatContainer.innerHTML += chatStripe(true, " ", uniqueId)
 
-    // to focus scroll to the bottom 
+    // untuk fokus gulir ke bawah
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
     // specific message div 
@@ -85,8 +87,9 @@ const handleSubmit = async (e) => {
 
     // messageDiv.innerHTML = "..."
     loader(messageDiv)
-
-    const response = await fetch('https://codex-im0y.onrender.com/', {
+    
+    // https://codex-im0y.onrender.com/
+    const response = await fetch('http://localhost:5000', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
